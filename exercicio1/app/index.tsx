@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, Alert, Modal, Pressable } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Alert,
+  Modal,
+  ActivityIndicator,
+  FlatList,
+} from "react-native";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import ButtonProps from "@/components/Button";
-import { FlatList } from "react-native-gesture-handler";
 
 const firebaseConfig = {
   apiKey: "",
@@ -18,7 +25,8 @@ firebase.initializeApp(firebaseConfig);
 
 export default function Index() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [produtos, setProdutos] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [produtos, setProdutos] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       const produtosCollection = firebase.firestore().collection("Produtos");
@@ -29,41 +37,51 @@ export default function Index() {
         data.push({ id: doc.id, ...doc.data() });
       });
 
-      setProdutos(data);
+      setTimeout(() => {
+        setProdutos(data);
+        setLoading(false);
+      }, 2000);
     };
 
     fetchData();
   }, []);
 
-  const Press = () => {
-    setModalVisible(true);
-    console.log("Botão Pressionado");
-  };
-
   return (
     <View style={styles.container}>
       <Text> Lista de Produtos </Text>
-      <FlatList
-        data={produtos}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View>
-            <Text>
-              {item.Nome} - {item.Preço}
-            </Text>
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <FlatList
+          data={produtos}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View>
+              <Text>
+                {item.Nome} - {item.Preço}
+              </Text>
+            </View>
+          )}
+        />
+      )}
+
+      <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        <View style={styles.container}>
+          <View style={styles.modal}>
+            <Text>Hello World!</Text>
+            <ButtonProps
+              corFundo="red"
+              label="Fechar"
+              onPress={() => setModalVisible(false)}
+            />
           </View>
-        )}
-      ></FlatList>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal está fechando");
-          setModalVisible(!modalVisible);
-        }}
+        </View>
+      </Modal>
+      <ButtonProps
+        label="Abrir Modal"
+        corFundo="green"
+        onPress={() => setModalVisible(true)}
       />
-      <ButtonProps label="Clique aqui" corFundo="green" onPress={Press} />
     </View>
   );
 }
@@ -73,5 +91,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  modal: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
