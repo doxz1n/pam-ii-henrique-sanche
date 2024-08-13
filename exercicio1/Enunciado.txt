@@ -1,0 +1,4 @@
+1 - Acesse a documentação dos componentes do react native (https://reactnative.dev/docs/components-and-apis) e 
+aplique pelo menos 5 diferentes itens da lista. Exemplo: Utilize o componente de modal. Caso seja interessante consuma dados vindos do Firebase para utilizar os componentes.
+
+2 - Crie um componentes reutilizavel de um botão onde podemos passar os parâmetros de texto e cor.

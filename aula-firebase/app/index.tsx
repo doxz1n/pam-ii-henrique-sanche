@@ -3,12 +3,12 @@ import "firebase/compat/firestore";
 
 // Dados Sensíveis
 const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: "",
+  apiKey: "AIzaSyAUPny1J7lFfLiiDhiLkYaBGXTndo_ktLQ",
+  authDomain: "meuprimeirofirebase-3aee1.firebaseapp.com",
+  projectId: "meuprimeirofirebase-3aee1",
+  storageBucket: "meuprimeirofirebase-3aee1.appspot.com",
+  messagingSenderId: "730116861460",
+  appId: "1:730116861460:web:a84db6abb79379a5804101",
 };
 
 firebase.initializeApp(firebaseConfig);
