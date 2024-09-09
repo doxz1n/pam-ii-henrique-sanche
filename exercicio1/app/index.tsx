@@ -13,12 +13,12 @@ import "firebase/compat/firestore";
 import ButtonProps from "@/components/Button";
 
 const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: "",
+  apiKey: "AIzaSyAUPny1J7lFfLiiDhiLkYaBGXTndo_ktLQ",
+  authDomain: "meuprimeirofirebase-3aee1.firebaseapp.com",
+  projectId: "meuprimeirofirebase-3aee1",
+  storageBucket: "meuprimeirofirebase-3aee1.appspot.com",
+  messagingSenderId: "730116861460",
+  appId: "1:730116861460:web:a84db6abb79379a5804101"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -27,12 +27,13 @@ export default function Index() {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [produtos, setProdutos] = useState([]);
+  
   useEffect(() => {
     const fetchData = async () => {
       const produtosCollection = firebase.firestore().collection("Produtos");
       const snapshot = await produtosCollection.get();
 
-      const data = [];
+      const data:any = [];
       snapshot.forEach((doc) => {
         data.push({ id: doc.id, ...doc.data() });
       });
@@ -45,6 +46,17 @@ export default function Index() {
 
     fetchData();
   }, []);
+
+  const AlertaBotao = () => {
+    Alert.alert('Isso é um alerta', 'Você é uma pessoa maravilhosa!!!', [
+      {
+        text: 'Fechar',
+        onPress: () => console.log('Você fechou!'),
+        style: 'cancel',
+      },
+      {text: 'Okay', onPress: () => console.log("Você tambem está OK!")}
+    ]);
+  };
 
   return (
     <View style={styles.container}>
@@ -77,6 +89,13 @@ export default function Index() {
           </View>
         </View>
       </Modal>
+      
+      <ButtonProps
+        label="Alerta!(Somente no celular ou emulador)"
+        corFundo='red'
+        onPress={AlertaBotao} 
+      />
+      
       <ButtonProps
         label="Abrir Modal"
         corFundo="green"
